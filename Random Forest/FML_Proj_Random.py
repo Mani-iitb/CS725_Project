@@ -71,7 +71,7 @@ df = df.drop(columns='outcome')
 
 #split the data
 
-df = df.sample(frac = 0.8)
+df = df.sample(frac = 1)
 train, test = train_test_split(df, test_size=0.1)
 
 y_train = train['outcome_num'].to_numpy()

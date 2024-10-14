@@ -2,6 +2,7 @@ from DecisionTree import DecisionTree
 from collections import Counter
 import numpy as np
 
+
 class RandomForest:
     def __init__(self, n_trees = 2, max_depth=100, min_samples_split=2, n_features=None):
         self.n_trees = n_trees
@@ -30,8 +31,8 @@ class RandomForest:
         value =counter.most_common(1)[0][0]
         return value
     
-    def predict(self, X, y):
-        predictions = np.array([tree.predict(X,y) for tree in self.trees])
+    def predict(self, X):
+        predictions = np.array([tree.predict(X) for tree in self.trees])
         predictions = np.swapaxes(predictions,0,1)
         predictions = np.array([self._most_common_label(pred) for pred in predictions])
         return predictions
