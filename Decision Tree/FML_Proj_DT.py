@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from DecisionTree import DescisionTree
+from DecisionTree import DecisionTree
 
 # read the dataset
 df=pd.read_csv('KDD10.csv').drop(columns='Unnamed: 0')
@@ -79,7 +79,7 @@ X_train = train.drop(columns='outcome_num').to_numpy()
 y_test = test['outcome_num'].to_numpy()
 X_test = test.drop(columns='outcome_num').to_numpy()
 
-clf = DescisionTree()
+clf = DecisionTree()
 clf.fit(X_train, y_train)
 prediction = clf.predict(X_test)
 
