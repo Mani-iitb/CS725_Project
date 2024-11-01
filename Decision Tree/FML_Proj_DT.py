@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from DecisionTree import DecisionTree
+from DecisionTree import DecisionTreeClassifier
 
 # read the dataset
 df=pd.read_csv('KDD10.csv').drop(columns='Unnamed: 0')
@@ -79,7 +79,7 @@ X_train = train.drop(columns='outcome_num').to_numpy()
 y_test = test['outcome_num'].to_numpy()
 X_test = test.drop(columns='outcome_num').to_numpy()
 
-clf = DecisionTree()
+clf = DecisionTreeClassifier()
 clf.fit(X_train, y_train)
 prediction = clf.predict(X_test)
 
@@ -87,4 +87,7 @@ def accuracy(y_test, y_pred):
     return np.sum(y_test == y_pred) / len(y_test)
 
 acc = accuracy(y_test, prediction)
-print(acc)
+print("Accuracy: ", acc)
+
+print("feature importance")
+print(clf.feature_importances_)
