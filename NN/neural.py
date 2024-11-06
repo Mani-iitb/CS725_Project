@@ -38,11 +38,6 @@ tensor_y_cv = torch.tensor(Y_val, dtype=torch.int64).to(device)
 dataset = TensorDataset(tensor_x_train, tensor_y_train)
 gd_batches = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-
-
-    
-
-
 class Classifier(nn.Module):
     def __init__(self, input_size=123, hidden_size=256, num_classes=23):
         super(Classifier, self).__init__()
