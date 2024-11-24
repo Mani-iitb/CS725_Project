@@ -4,35 +4,34 @@ import numpy as np
 
 
 class RandomForest:
-    def __init__(self, n_trees = 2, max_depth=100, min_samples_split=2):
-        self.n_trees = n_trees
-        self.max_depth = max_depth
-        self.min_samples_split = min_samples_split
-        self.trees = []
+    def __init__(self, num_trees=2, max_tree_depth=100, min_split_samples=2):
+        self.num_trees = num_trees
+        self.max_tree_depth = max_tree_depth
+        self.min_split_samples = min_split_samples
+        self.tree_list = []
         
-    def fit(self, X, y):
-        self.trees = []
-        self.imp_features = []
-        for _ in range(self.n_trees):
-            tree = DecisionTreeClassifier(max_tree_depth = self.max_depth, min_samples_split=self.min_samples_split)
-            X_sample, y_sample = self.sample_create(X, y)
-            tree.fit(X_sample, y_sample)
-            self.trees.append(tree)
-            self.imp_features.append(tree.feature_importances_)
+    def train(self, features, targets):
+        self.tree_list = []
+        self.feature_importances = []
+        for _ in range(self.num_trees):
+            tree_instance = DecisionTreeClassifier(max_tree_depth=self.max_tree_depth, min_samples_split=self.min_split_samples)
+            sampled_features, sampled_targets = self.generate_samples(features, targets)
+            tree_instance.fit(sampled_features, sampled_targets)
+            self.tree_list.append(tree_instance)
+            self.feature_importances.append(tree_instance.feature_importances_)
             
-    def sample_create(self, X, y):
-        n_samples = X.shape[0]
-        indices = np.random.choice(n_samples, n_samples, replace=True)
-        return X[indices], y[indices]
+    def generate_samples(self, features, targets):
+        num_samples = features.shape[0]
+        random_indices = np.random.choice(num_samples, num_samples, replace=True)
+        return features[random_indices], targets[random_indices]
 
-    def _most_common_label(self, y):
-        counter = Counter(y)
-        value =counter.most_common(1)[0][0]
-        return value
+    def _most_frequent_label(self, labels):
+        label_counts = Counter(labels)
+        most_common_label = label_counts.most_common(1)[0][0]
+        return most_common_label
     
-    def predict(self, X):
-        predictions = np.array([tree.predict(X) for tree in self.trees])
-        predictions = np.swapaxes(predictions,0,1)
-        predictions = np.array([self._most_common_label(pred) for pred in predictions])
-        return predictions
-    
+    def classify(self, features):
+        tree_predictions = np.array([tree.predict(features) for tree in self.tree_list])
+        tree_predictions = np.swapaxes(tree_predictions, 0, 1)
+        final_predictions = np.array([self._most_frequent_label(tree_pred) for tree_pred in tree_predictions])
+        return final_predictions
