@@ -10,11 +10,11 @@ class RandomForest:
         self.min_split_samples = min_split_samples
         self.tree_list = []
         
-    def train(self, features, targets):
+    def fit(self, features, targets):
         self.tree_list = []
         self.feature_importances = []
         for _ in range(self.num_trees):
-            tree_instance = DecisionTreeClassifier(max_tree_depth=self.max_tree_depth, min_samples_split=self.min_split_samples)
+            tree_instance = DecisionTreeClassifier(max_depth=self.max_tree_depth, min_split=self.min_split_samples)
             sampled_features, sampled_targets = self.generate_samples(features, targets)
             tree_instance.fit(sampled_features, sampled_targets)
             self.tree_list.append(tree_instance)
@@ -30,7 +30,7 @@ class RandomForest:
         most_common_label = label_counts.most_common(1)[0][0]
         return most_common_label
     
-    def classify(self, features):
+    def predict(self, features):
         tree_predictions = np.array([tree.predict(features) for tree in self.tree_list])
         tree_predictions = np.swapaxes(tree_predictions, 0, 1)
         final_predictions = np.array([self._most_frequent_label(tree_pred) for tree_pred in tree_predictions])
