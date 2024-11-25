@@ -14,7 +14,7 @@ class DecisionTreeNode:
         return self.leaf_value is not None
 
 class DecisionTreeClassifier:
-    def __init__(self, max_depth, min_split):
+    def __init__(self, max_depth=100, min_split=2):
         self.min_samples_split = min_split
         self.max_tree_depth = max_depth
         self.root_node = None
