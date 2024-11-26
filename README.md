@@ -6,9 +6,9 @@ These range from simple NMAP snooping and DDOS to complex(but obsolete) rootkit 
 Most of these attacks are deterministic procedures and have easy to identify hallmarks, and therefore can be prevented since detection is easy. 
 Classification is often challenging due to the large overlap between attacks that are along similar lines or attacks that subsume other attacks. 
 
-----------------------------------------------------------------------------------
+----------------------------------------------------------|----------|------------
 Model                                                     | Accuracy | Precision | 
-----------------------------------------------------------------------------------
+----------------------------------------------------------|----------|-----------|
 Decision Tree (our own DT code)                           | 0.997    | 0.789     |
 DT using Adaboost (SKlearn)                               | 0.997    | 0.805     | 
 Random Forest (our own RF code)                           | 0.997    | 0.830     | 
